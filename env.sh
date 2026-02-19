@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Default to localhost if not set
-API_BASE_URL=${API_BASE_URL:-http://localhost:5000}
+API_BASE_URL=${API_BASE_URL:-http://localhost:8080}
 
 echo "Updating API configuration to: $API_BASE_URL"
 
