@@ -405,8 +405,8 @@
                             <img src="img/Linkedin.svg" alt="LinkedIn"
                                 style="width: 32px; height: 32px; transition: transform 0.3s ease, opacity 0.3s ease;">
                         </a>
-                        <a href="https://www.threads.com/@EFV&trade;_framework" class="social-icon-link" aria-label="Threads"
-                            target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.threads.com/@EFV&trade;_framework" class="social-icon-link"
+                            aria-label="Threads" target="_blank" rel="noopener noreferrer">
                             <img src="img/Threads.svg" alt="Threads"
                                 style="width: 32px; height: 32px; transition: transform 0.3s ease, opacity 0.3s ease;">
                         </a>
@@ -437,6 +437,7 @@
     </footer>
 
     <!-- JS Scripts -->
+    <script src="js/api-config.js"></script>
     <script src="js/particles.js"></script>
     <script src="js/main.js"></script>
     <script src="js/cart.js?v=9.0"></script>
@@ -499,7 +500,8 @@
                         btn.textContent = 'Authenticating...';
                         btn.disabled = true;
 
-                        const response = await fetch('http://localhost:5000/api/auth/admin/login', {
+                        const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+                        const response = await fetch(`${apiBase}/api/auth/admin/login`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ email, password })
@@ -537,7 +539,8 @@
             window.loadOrders = async function () {
                 const token = sessionStorage.getItem('adminToken');
                 try {
-                    const response = await fetch('http://localhost:5000/api/orders', {
+                    const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+                    const response = await fetch(`${apiBase}/api/orders`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const orders = await response.json();
@@ -593,7 +596,8 @@
                 if (note === null) return; // Cancelled
 
                 try {
-                    const response = await fetch(`http://localhost:5000/api/orders/${id}/status`, {
+                    const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+                    const response = await fetch(`${apiBase}/api/orders/${id}/status`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -640,10 +644,11 @@
                 try {
                     const token = sessionStorage.getItem('adminToken');
 
+                    const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
                     // Fetch products and orders in parallel
                     const [productsRes, ordersRes] = await Promise.all([
-                        fetch('http://localhost:5000/api/products'),
-                        fetch('http://localhost:5000/api/orders', {
+                        fetch(`${apiBase}/api/products`),
+                        fetch(`${apiBase}/api/orders`, {
                             headers: { 'Authorization': `Bearer ${token}` }
                         })
                     ]);
@@ -702,7 +707,7 @@
                                 const tr = document.createElement('tr');
                                 tr.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
                                 tr.innerHTML = `
-                                    <td style="padding: 15px;"><img src="${p.thumbnail ? (p.thumbnail.startsWith('http') ? p.thumbnail : 'http://localhost:5000/' + p.thumbnail.replace('src/', '')) : 'img/placeholder.png'}" style="width: 50px; height: 75px; object-fit: cover; border-radius: 4px;"></td>
+                                    <td style="padding: 15px;"><img src="${p.thumbnail ? (p.thumbnail.startsWith('http') ? p.thumbnail : (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL ? CONFIG.API_BASE_URL : 'http://localhost:5000') + '/' + p.thumbnail.replace('src/', '')) : 'img/placeholder.png'}" style="width: 50px; height: 75px; object-fit: cover; border-radius: 4px;"></td>
                                     <td style="padding: 15px;">${p.title}<br><span style="font-size: 0.8rem; color: #aaa;">${p.category || p.type}</span></td>
                                     <td style="padding: 15px;">${p.type}</td>
                                     <td style="padding: 15px;">?${p.price}</td>
@@ -754,7 +759,8 @@
 
                 const token = sessionStorage.getItem('adminToken');
                 try {
-                    const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+                    const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+                    const response = await fetch(`${apiBase}/api/products/${id}`, {
                         method: 'DELETE',
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
@@ -869,6 +875,7 @@
 
         });
     </script>
-<script src="js/efv-fx.js"></script></body>
+    <script src="js/efv-fx.js"></script>
+</body>
 
 </html>

@@ -188,7 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const demoToken = btoa(user.email);
-            const response = await fetch('http://localhost:5000/api/demo/library', {
+            const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+            const response = await fetch(`${apiBase}/api/demo/library`, {
                 headers: { 'Authorization': `Bearer ${demoToken}` }
             });
             const data = await response.json();
@@ -603,7 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const user = JSON.parse(localStorage.getItem('efv_user'));
                 if (user && user.email) {
                     const demoToken = btoa(user.email);
-                    fetch('http://localhost:5000/api/demo/add-to-library', {
+                    const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+                    fetch(`${apiBase}/api/demo/add-to-library`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

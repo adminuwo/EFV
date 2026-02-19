@@ -367,7 +367,8 @@ async function initiateDashboardCheckout(items, isSingleItemMode, cartIndexToRem
 
     try {
         // Create Order
-        const rzpRes = await fetch('http://localhost:5000/api/orders/razorpay', {
+        const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+        const rzpRes = await fetch(`${apiBase}/api/orders/razorpay`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ amount: totalAmount })

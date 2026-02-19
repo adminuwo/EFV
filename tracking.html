@@ -173,8 +173,8 @@
                             <img src="img/Linkedin.svg" alt="LinkedIn"
                                 style="width: 32px; height: 32px; transition: transform 0.3s ease, opacity 0.3s ease;">
                         </a>
-                        <a href="https://www.threads.com/@EFV&trade;_framework" class="social-icon-link" aria-label="Threads"
-                            target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.threads.com/@EFV&trade;_framework" class="social-icon-link"
+                            aria-label="Threads" target="_blank" rel="noopener noreferrer">
                             <img src="img/Threads.svg" alt="Threads"
                                 style="width: 32px; height: 32px; transition: transform 0.3s ease, opacity 0.3s ease;">
                         </a>
@@ -204,6 +204,7 @@
         </div>
     </footer>
 
+    <script src="js/api-config.js"></script>
     <script>
         const form = document.getElementById('tracking-form');
         const input = document.getElementById('order-id-input');
@@ -230,7 +231,8 @@
             errorMsg.style.display = 'none';
 
             try {
-                const response = await fetch(`http://localhost:5000/api/orders/track/${orderId}`);
+                const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://localhost:5000';
+                const response = await fetch(`${apiBase}/api/orders/track/${orderId}`);
                 const data = await response.json();
 
                 if (response.ok) {
@@ -269,6 +271,7 @@
             timelineView.style.display = 'block';
         }
     </script>
-<script src="js/efv-fx.js"></script></body>
+    <script src="js/efv-fx.js"></script>
+</body>
 
 </html>
