@@ -125,10 +125,11 @@
 }
 
 .pm-btn-buy {
-    background: transparent;
-    color: var(--gold-energy);
-    border: 1px solid var(--gold-energy);
-    box-shadow: inset 0 0 10px rgba(255, 211, 105, 0.1);
+    background: #FFD369;
+    /* Solid Gold/Yellow */
+    color: #000;
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 211, 105, 0.4);
 }
 
 .pm-btn-buy::after {
@@ -299,19 +300,22 @@
 .pm-tab-btn {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 211, 105, 0.5);
+    /* Muted gold for inactive */
     padding: 10px 0;
     font-weight: 700;
     cursor: pointer;
     position: relative;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     font-size: 0.95rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
+.pm-tab-btn:hover,
 .pm-tab-btn.active {
     color: var(--gold-energy);
+    /* Full gold on hover/active */
 }
 
 .pm-tab-btn.active::after {
@@ -357,8 +361,12 @@
 }
 
 .pm-spec-label {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 211, 105, 0.4);
     width: 150px;
+}
+
+.pm-spec-value {
+    color: #fff;
 }
 
 /* Manufacturer Info Tab Styles */

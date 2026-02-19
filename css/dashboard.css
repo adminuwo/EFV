@@ -16,7 +16,7 @@ body.dashboard-body {
     font-family: 'Outfit', sans-serif;
     margin: 0;
     overflow-x: hidden;
-    background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
+    /* Removed radial decoration to fix ghosting/noise behind sidebar */
 }
 
 .dashboard-container {
@@ -25,31 +25,31 @@ body.dashboard-body {
 }
 
 /* --- SIDEBAR --- */
+/* --- SIDEBAR REDESIGN --- */
 .sidebar {
     width: var(--sidebar-width);
-    background: rgba(8, 8, 8, 0.85);
-    /* Slightly more transparent/dynamic */
-    border-right: var(--glass-border);
+    background: #080808;
+    /* Deep premium matte black */
+    border-right: 1px solid rgba(255, 211, 105, 0.08);
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 30px 18px;
     position: fixed;
     height: 100vh;
     z-index: 100;
-    backdrop-filter: blur(30px);
-    /* Increased blur for better contrast */
+    backdrop-filter: blur(40px);
 }
 
 .sidebar-header {
-    padding: 30px 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 211, 105, 0.08);
+    padding: 10px 10px 30px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 211, 105, 0.05);
 }
 
 .sidebar-user-brief {
-    padding: 20px 15px;
+    padding: 18px 14px;
     margin-bottom: 25px;
-    background: rgba(255, 211, 105, 0.03);
+    background: rgba(255, 211, 105, 0.02);
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -67,8 +67,9 @@ body.dashboard-body {
     justify-content: center;
     color: #000;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     box-shadow: 0 0 15px rgba(255, 211, 105, 0.2);
+    flex-shrink: 0;
 }
 
 .user-info-brief h4 {
@@ -87,56 +88,59 @@ body.dashboard-body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 18px;
+    /* equal vertical spacing requested */
 }
 
 .nav-item {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 15px 20px;
+    padding: 14px 16px;
+    /* consistent padding requested */
     border-radius: 12px;
     background: transparent;
     border: none;
-    color: #ffffff !important;
-    opacity: 0.9;
-    /* Higher default visibility */
-    font-weight: 600;
-    /* Bolder text */
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 1.05rem;
-    /* Slightly larger */
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
     text-align: left;
     text-decoration: none;
     position: relative;
     font-family: 'Outfit', sans-serif;
-}
-
-.nav-item:hover {
-    background: rgba(255, 211, 105, 0.1);
-    color: white;
-    opacity: 1;
-    transform: translateX(5px);
-}
-
-.nav-item.active {
-    background: linear-gradient(90deg, rgba(255, 211, 105, 0.2) 0%, transparent 100%);
-    color: var(--gold-text);
-    opacity: 1;
-    font-weight: 700;
-    border-left: 3px solid var(--gold-text);
-    box-shadow: 0 4px 20px rgba(255, 211, 105, 0.15);
-    text-shadow: 0 0 10px rgba(255, 211, 105, 0.3);
+    width: 100%;
+    outline: none;
 }
 
 .nav-item i {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     width: 24px;
     text-align: center;
-    color: inherit;
-    /* Ensures it follows parent brightness */
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+    transition: inherit;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    /* soft highlight */
+    color: #fff !important;
+    transform: none;
+    /* remove overlapping translateX */
+}
+
+/* Active item style: gold pill background */
+.nav-item.active {
+    background: var(--gold-text) !important;
+    color: #000 !important;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(255, 211, 105, 0.25);
+    /* mild shadow */
+    border: none !important;
+}
+
+.nav-item.active i {
+    color: #000 !important;
 }
 
 .nav-item .badge {
@@ -149,13 +153,26 @@ body.dashboard-body {
     margin-left: auto;
 }
 
-.nav-item.logout {
+/* If parent is active, tweak badge for contrast */
+.nav-item.active .badge {
+    background: #000;
+    color: var(--gold-text);
+}
+
+.sidebar-footer {
     margin-top: auto;
-    color: #ff6b6b;
+    /* Push to bottom */
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 211, 105, 0.05);
+}
+
+.nav-item.logout {
+    color: #ff6b6b !important;
 }
 
 .nav-item.logout:hover {
     background: rgba(255, 107, 107, 0.1);
+    color: #ff5252 !important;
 }
 
 /* --- MAIN CONTENT --- */
@@ -691,43 +708,113 @@ body.dashboard-body {
     .sidebar {
         width: 100%;
         height: auto;
-        position: relative;
+        position: fixed;
+        top: 0;
+        left: 0;
         flex-direction: row;
         align-items: center;
-        padding: 10px;
-        overflow-x: auto;
+        padding: 5px 15px;
+        z-index: 1000;
+        background: rgba(5, 5, 5, 0.95);
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 211, 105, 0.1);
+        justify-content: space-between;
+        backdrop-filter: blur(20px);
     }
 
     .sidebar-header {
-        padding: 0;
-        margin-right: 20px;
+        padding: 10px 0;
+        margin: 0;
+        border-bottom: none;
+    }
+
+    .sidebar-header .logo span {
+        display: none;
+        /* Hide logo text for more space */
+    }
+
+    .sidebar-user-brief {
+        display: none;
+        /* Hidden on mobile top bar for clean look */
     }
 
     .sidebar-nav {
         flex-direction: row;
+        gap: 8px;
+        flex: 1;
+        justify-content: center;
+        padding: 0 10px;
     }
 
     .nav-item {
         padding: 10px;
+        width: auto;
+        justify-content: center;
+        border-radius: 10px;
+        gap: 0;
+    }
+
+    .nav-item span {
+        display: none;
+        /* Icon-only for mobile top bar */
+    }
+
+    .nav-item i {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+
+    .nav-item.active {
+        background: var(--gold-text);
+        color: #000 !important;
+        box-shadow: 0 0 15px rgba(255, 211, 105, 0.3);
+    }
+
+    .sidebar-footer {
+        margin: 0;
+        padding: 0;
+        border-top: none;
+    }
+
+    .nav-item.logout {
+        padding: 10px;
+        color: #ff6b6b !important;
     }
 
     .main-content {
         margin-left: 0;
-        padding: 20px 15px;
+        margin-top: 80px;
+        /* Offset for the fixed top bar */
+        padding: 25px 20px;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .content-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .content-header p {
+        font-size: 0.9rem;
+    }
+
+    #current-date {
+        font-size: 0.85rem;
+        opacity: 0.7;
     }
 
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 
-    .order-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .order-img {
-        width: 100px;
-        height: 130px;
+    .stat-card {
+        padding: 20px;
     }
 
     .settings-grid {
