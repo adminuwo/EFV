@@ -66,8 +66,120 @@
         <!-- RIGHT CONTENT AREA -->
         <main class="main-content">
 
+            <!-- Mobile Only Header (Standard industry style) -->
+            <header class="mobile-only-header">
+                <button class="back-btn hidden" id="mobile-back-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 id="mobile-page-title">Profile</h2>
+                <div class="header-right">
+                    <img src="img/AISA.svg" alt="EFV™" class="mobile-mini-logo">
+                </div>
+            </header>
+
+            <!-- 1️⃣ PROFESSIONAL MOBILE PROFILE VIEW -->
+            <section id="mobile-menu" class="content-section active mobile-only">
+                <!-- Profile Header Card -->
+                <div class="mobile-profile-card">
+                    <div class="avatar-container">
+                        <div class="large-avatar" id="mobile-user-initials">A</div>
+                        <button class="edit-camera"><i class="fas fa-camera"></i></button>
+                    </div>
+                    <h2 class="user-name" id="mobile-user-name">Abha</h2>
+                    <p class="user-email" id="mobile-user-email">member@efv.com</p>
+                    <button class="btn-profile-edit">Edit Profile</button>
+                </div>
+
+                <!-- 2️⃣ Stats Row -->
+                <div class="mobile-stats-row">
+                    <div class="stat-item" data-tab="orders">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="stat-count" id="m-stat-orders">0</span>
+                        <span class="stat-label">Orders</span>
+                    </div>
+                    <div class="stat-item" data-tab="cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="stat-count" id="m-stat-cart">0</span>
+                        <span class="stat-label">Cart</span>
+                    </div>
+                    <div class="stat-item" data-tab="library">
+                        <i class="fas fa-book-reader"></i>
+                        <span class="stat-count" id="m-stat-digital">0</span>
+                        <span class="stat-label">Library</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <span class="stat-count">120</span>
+                        <span class="stat-label">Points</span>
+                    </div>
+                </div>
+
+                <!-- 3️⃣ Menu List -->
+                <div class="mobile-menu-list">
+                    <div class="menu-group-title">Account Settings</div>
+
+                    <div class="menu-list-item" data-tab="orders">
+                        <div class="item-left">
+                            <i class="fas fa-box"></i>
+                            <span>My Orders</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="menu-list-item" data-tab="cart">
+                        <div class="item-left">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>My Cart</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="menu-list-item" data-tab="library">
+                        <div class="item-left">
+                            <i class="fas fa-book"></i>
+                            <span>My Library</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="menu-list-item" data-tab="settings">
+                        <div class="item-left">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Account Settings</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="menu-group-title">Support & Info</div>
+
+                    <div class="menu-list-item">
+                        <div class="item-left">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Saved Addresses</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="menu-list-item">
+                        <div class="item-left">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="menu-list-item logout" id="mobile-logout-action">
+                        <div class="item-left">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </section>
+
             <!-- DASHBOARD OVERVIEW TAB -->
-            <section id="dashboard" class="content-section active">
+            <section id="dashboard" class="content-section active desktop-only">
                 <header class="content-header">
                     <div class="welcome-text">
                         <h1 class="gradient-text">Hello, <span id="user-name-display">User</span> ??</h1>

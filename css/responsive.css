@@ -56,6 +56,16 @@
 
     .nav-links.active {
         right: 0;
+        overflow-y: auto;
+        /* Allow scrolling within menu if tall */
+        overflow-x: hidden;
+        /* Prevent horizontal scroll */
+        padding-bottom: 50px;
+    }
+
+    body.menu-open {
+        overflow: hidden;
+        /* Prevent body scroll when menu open */
     }
 
     .hamburger {
@@ -267,6 +277,17 @@
     .hamburger {
         display: block !important;
     }
+
+    /* Flip Cards Tablet Fix */
+    .flip-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+
+    /* Handle odd card on tablet if needed, or just let grid handle it */
+    .flip-card {
+        height: 300px !important;
+    }
 }
 
 /* Extra Small Devices (480px) */
@@ -365,6 +386,19 @@
 
     .carousel-nav.next {
         right: -5px;
+    }
+
+    /* Flip Cards Responsive Fix */
+    .flip-grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+
+    .flip-card {
+        width: 100% !important;
+        height: 300px !important;
+        /* Slightly smaller on mobile */
     }
 }
 

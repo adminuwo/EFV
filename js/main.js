@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation();
                 hamburger.classList.toggle('active');
                 navLinks.classList.toggle('active');
-                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+                document.body.classList.toggle('menu-open');
             });
 
             // Auto-close when clicking outside
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isClickInside && navLinks.classList.contains('active')) {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
+                    document.body.classList.remove('menu-open');
                 }
             });
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
+                    document.body.classList.remove('menu-open');
                 });
             });
 
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (window.innerWidth > 992 && navLinks.classList.contains('active')) {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
+                    document.body.classList.remove('menu-open');
                 }
             });
         }

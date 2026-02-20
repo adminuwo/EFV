@@ -481,7 +481,7 @@
 
             // Check session storage or persistent user on load
             if (sessionStorage.getItem('adminLoggedIn') === 'true' ||
-                (localStorage.getItem('EFV&trade;_user') && JSON.parse(localStorage.getItem('EFV&trade;_user')).email === 'admin@uwo24.com')) {
+                (localStorage.getItem('efv_user') && JSON.parse(localStorage.getItem('efv_user')).email === 'admin@uwo24.com')) {
                 showDashboard();
             }
 
@@ -509,7 +509,7 @@
                         if (response.ok) {
                             sessionStorage.setItem('adminToken', data.token);
                             sessionStorage.setItem('adminLoggedIn', 'true');
-                            localStorage.setItem('EFV&trade;_user', JSON.stringify({ name: data.name, email: data.email, role: 'admin' }));
+                            localStorage.setItem('efv_user', JSON.stringify({ name: data.name, email: data.email, role: 'admin' }));
 
                             showDashboard();
                             loginError.style.display = 'none';
@@ -804,7 +804,8 @@
                     let uploadData = {};
                     if (coverFile || ebookFile || audioFile) {
                         try {
-                            const uploadRes = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/upload', {
+                            const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'https://efv-backend-743928421487.asia-south1.run.app';
+                            const uploadRes = await fetch(`${apiBase}/api/upload`, {
                                 method: 'POST',
                                 headers: { 'Authorization': `Bearer ${token}` },
                                 body: formData
@@ -844,7 +845,8 @@
                     };
 
                     try {
-                        const res = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/products', {
+                        const apiBase = (typeof CONFIG !== 'undefined' && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'https://efv-backend-743928421487.asia-south1.run.app';
+                        const res = await fetch(`${apiBase}/api/products`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

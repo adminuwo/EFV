@@ -705,9 +705,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.login-btn').forEach(btn => {
             if (user) {
                 btn.textContent = 'Profile';
-                // Optional: change icon or style
+                btn.onclick = () => window.location.href = 'profile.html';
             } else {
                 btn.textContent = 'Login';
+                btn.onclick = () => {
+                    if (document.getElementById('auth-modal')) {
+                        openAuthModal('login');
+                    } else {
+                        window.location.href = 'marketplace.html?auth=login';
+                    }
+                };
             }
         });
     }
@@ -1189,7 +1196,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (user && user.email && library[index].id) {
                 try {
                     const demoToken = btoa(user.email);
-                    await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/demo/progress', {
+                    await fetch(`${CONFIG.API_BASE_URL}/api/demo/progress`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1238,7 +1245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (productId) {
                     const demoToken = btoa(user.email);
                     console.log(`📤 Syncing to backend: ${productId} -> Page ${page}`);
-                    const res = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/demo/progress', {
+                    const res = await fetch(`${CONFIG.API_BASE_URL}/api/demo/progress`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1642,7 +1649,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Create Razorpay Order via Backend
-            const rzpRes = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/orders/razorpay', {
+            const rzpRes = await fetch(`${CONFIG.API_BASE_URL}/api/orders/razorpay`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: totalAmount })
@@ -1676,7 +1683,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (btn) btn.textContent = 'Verifying Payment...';
 
                     try {
-                        const verifyRes = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/orders/verify', {
+                        const verifyRes = await fetch(`${CONFIG.API_BASE_URL}/api/orders/verify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -1735,7 +1742,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         localStorage.setItem(libKey, JSON.stringify(currentLibrary));
 
                                         const demoToken = btoa(user.email);
-                                        await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/demo/add-to-library', {
+                                        await fetch(`${CONFIG.API_BASE_URL}/api/demo/add-to-library`, {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json',
@@ -1858,7 +1865,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // API Login
-                const response = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/auth/login', {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -1919,7 +1926,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // API Signup
-                const response = await fetch('https://efv-backend-743928421487.asia-south1.run.app/api/auth/signup', {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/auth/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, password })
@@ -2053,4 +2060,5 @@ window.addEventListener('beforeunload', () => {
         window.saveAudioProgress(window.currentPlayingName, window.currentAudio.currentTime, window.currentAudio.duration);
     }
 });
+
 

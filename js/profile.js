@@ -10,27 +10,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Initialize Dashboard
     initializeDashboard(user);
 
-    // 3. Tab Logic
-    const tabs = document.querySelectorAll('.nav-item[data-tab]');
+    // 3. Tab Logic (Updated for mobile profile)
+    const allTabs = document.querySelectorAll('[data-tab]'); // Support all tab triggers
     const sections = document.querySelectorAll('.content-section');
+    const mobileTitle = document.getElementById('mobile-page-title');
+    const mobileBack = document.getElementById('mobile-back-btn');
 
-    tabs.forEach(tab => {
+    const switchTab = (targetId, btn) => {
+        // Deactivate all
+        allTabs.forEach(t => t.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        // Activate target
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            if (btn && btn.classList.contains('nav-item')) btn.classList.add('active');
+
+            // Mobile UI Updates
+            if (window.innerWidth <= 768) {
+                if (mobileTitle) {
+                    if (targetId === 'mobile-menu') {
+                        mobileTitle.textContent = 'Profile';
+                        if (mobileBack) mobileBack.classList.add('hidden');
+                    } else {
+                        // Set title from button text or tab ID
+                        const rawText = btn ? btn.innerText.trim() : targetId;
+                        mobileTitle.textContent = rawText.split('\n')[0] || targetId;
+                        if (mobileBack) mobileBack.classList.remove('hidden');
+                    }
+                }
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Refresh specific data
+        if (targetId === 'cart') renderCartTab();
+        if (targetId === 'orders') renderOrdersTab();
+        if (targetId === 'library') renderLibraryTab();
+    };
+
+    allTabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            // Deactivate all
-            tabs.forEach(t => t.classList.remove('active'));
-            sections.forEach(s => s.classList.remove('active'));
-
-            // Activate Clicked
-            tab.classList.add('active');
             const targetId = tab.getAttribute('data-tab');
-            document.getElementById(targetId).classList.add('active');
-
-            // Refresh specific data on tab switch
-            if (targetId === 'cart') renderCartTab();
-            if (targetId === 'orders') renderOrdersTab();
-            if (targetId === 'library') renderLibraryTab();
+            switchTab(targetId, tab);
         });
     });
+
+    if (mobileBack) {
+        mobileBack.addEventListener('click', () => switchTab('mobile-menu'));
+    }
 
     // 4. Logout
     // 4. Logout (Sidebar & Settings)
@@ -45,9 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sidebarLogout = document.getElementById('dashboard-logout-btn');
     const settingsLogout = document.getElementById('settings-logout-btn');
+    const mobileLogout = document.getElementById('mobile-logout-action');
 
     if (sidebarLogout) sidebarLogout.addEventListener('click', logoutAction);
     if (settingsLogout) settingsLogout.addEventListener('click', logoutAction);
+    if (mobileLogout) mobileLogout.addEventListener('click', logoutAction);
 
     // 5. Initial Render
     renderCartTab();
@@ -74,6 +105,14 @@ function initializeDashboard(user) {
     const initialsBrief = document.getElementById('user-initials');
     if (nameBrief) nameBrief.textContent = user.name;
     if (initialsBrief) initialsBrief.textContent = user.name.charAt(0).toUpperCase();
+
+    // Mobile Profile View
+    const mName = document.getElementById('mobile-user-name');
+    const mEmail = document.getElementById('mobile-user-email');
+    const mInitials = document.getElementById('mobile-user-initials');
+    if (mName) mName.textContent = user.name;
+    if (mEmail) mEmail.textContent = user.email;
+    if (mInitials) mInitials.textContent = user.name.charAt(0).toUpperCase();
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
@@ -329,11 +368,27 @@ function updateStats() {
     const libKey = getUserKey('efv_digital_library');
     const library = JSON.parse(localStorage.getItem(libKey)) || [];
 
-    document.getElementById('stat-total-orders').textContent = orders.length;
-    document.getElementById('stat-total-digital').textContent = library.length;
+    const cart = JSON.parse(localStorage.getItem('efv_cart')) || [];
+
+    // Desktop Stats
+    const sOrders = document.getElementById('stat-total-orders');
+    const sDigital = document.getElementById('stat-total-digital');
+    const sSpent = document.getElementById('stat-total-spent');
+
+    if (sOrders) sOrders.textContent = orders.length;
+    if (sDigital) sDigital.textContent = library.length;
 
     const totalSpent = orders.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    document.getElementById('stat-total-spent').textContent = '₹' + totalSpent.toFixed(0);
+    if (sSpent) sSpent.textContent = '₹' + totalSpent.toFixed(0);
+
+    // Mobile Stats (Menu View)
+    const mOrders = document.getElementById('m-stat-orders');
+    const mCartCount = document.getElementById('m-stat-cart');
+    const mDigitalCount = document.getElementById('m-stat-digital');
+
+    if (mOrders) mOrders.textContent = orders.length;
+    if (mCartCount) mCartCount.textContent = cart.reduce((sum, i) => sum + (i.quantity || 1), 0);
+    if (mDigitalCount) mDigitalCount.textContent = library.length;
 }
 
 // --- ACTIONS ---
